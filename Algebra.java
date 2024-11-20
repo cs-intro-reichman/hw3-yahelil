@@ -76,7 +76,7 @@ public class Algebra {
 		int absx1 = Math.abs(x1);
 		int absx2 = Math.abs(x2);
         while (absx1 >= absx2) {
-            absx1 = minus(x1, x2);
+            absx1 = minus(absx1, absx2);
             result++;
         }
 		if (x1<0 ^ x2<0){
