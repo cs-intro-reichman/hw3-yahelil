@@ -2,7 +2,7 @@
 public class Anagram {
 	public static void main(String args[]) {
 		// Tests the isAnagram function.
-		/*
+		
 		System.out.println(isAnagram("silent","listen"));  // true
 		System.out.println(isAnagram("William Shakespeare","I am a weakish speller")); // true
 		System.out.println(isAnagram("Madam Curie","Radium came")); // true
@@ -28,7 +28,7 @@ public class Anagram {
 		
 		System.out.println(isAnagram("anagram","Nag a Ram")); 
 		System.out.println(randomAnagram("anagram")); 
-		*/
+		
 
 	}  
 		
@@ -36,15 +36,35 @@ public class Anagram {
 	public static boolean isAnagram(String str1, String str2) {
 		str1 = preProcess(str1);
 		str2 = preProcess(str2);
-		if (str1.length() != str2.length()){
-			return false;
+		//removing the spaces before checking the length and checking for anagram
+		if (str1.replace(" ", "").length() != str2.replace(" ", "").length()) {
+			return false;  // Strings with different lengths can't be anagrams
 		}
-		for (int i = 0; i<str1.length(); i++){
-			if (!str2.contains("" + str1.charAt(i)) || !str1.contains("" + str2.charAt(i))){
-				return false;
+
+		for (int i = 0; i < str1.length(); i++) {
+			char c = str1.charAt(i);
+			if (c != ' '){
+				int count1 = countOccurrences(str1, c);
+				int count2 = countOccurrences(str2, c);
+		
+				if (count1 != count2) {
+					return false;
+				}
 			}
 		}
+	
 		return true;
+	}
+	
+	// Helper method to count occurrences of a character in a string
+	private static int countOccurrences(String str, char c) {
+		int count = 0;
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == c) {
+				count++;
+			}
+		}
+		return count;
 	}
 	   
 	// Returns a preprocessed version of the given string: all the letter characters are converted
