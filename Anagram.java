@@ -25,9 +25,10 @@ public class Anagram {
 			if (!pass) break;
 		}
 		System.out.println(pass ? "test passed" : "test Failed");
-		*/
+		
 		System.out.println(isAnagram("anagram","Nag a Ram")); 
 		System.out.println(randomAnagram("anagram")); 
+		*/
 
 	}  
 		
@@ -55,13 +56,12 @@ public class Anagram {
 		for (int i = 0; i < str.length(); i++) {
 			String alphabet = "abcdefghijklmnopqrstuvwxyz";
 			String c = "" + str.charAt(i); 
-			if(alphabet.contains(c)){
+			if(alphabet.contains(c) || c.equals(" ")){
 				characters += c;
 			}
 		}
-		System.out.println(characters);
 		return characters;
-	} 
+	} 	
 	   
 	// Returns a random anagram of the given string. The random anagram consists of the same
 	// characters as the given string, re-arranged in a random order. 

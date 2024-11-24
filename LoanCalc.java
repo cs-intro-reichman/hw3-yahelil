@@ -57,28 +57,23 @@ public class LoanCalc {
 	// Side effect: modifies the class variable iterationCounter.
     public static double bisectionSolver(double loan, double rate, int n, double epsilon) {
 		iterationCounter = 0;
-		// Lower bound: paying nothing means balance > 0
 		double low = 0;
-		// Upper bound: paying entire loan/n annually with interest added
-		double high = loan * Math.pow((1 + rate), n) / n; 
-		double mid = 0; // Midpoint
-		double balance = 0; // Balance at midpoint
+		double high = loan * (1 + (rate / 100)); // Better estimate for the upper bound
+		double mid = 0;
+		double balance;
 	
-		// Iteratively narrow the range
-		while (high - low > epsilon) {
+		while (high - low > epsilon) { // Relative error criterion
 			mid = (low + high) / 2;
 			balance = endBalance(loan, rate, n, mid);
 	
 			if (balance > 0) {
-				// Payment too low; move low up
-				low = mid;
+				low = mid; // Payment too low
 			} else {
-				// Payment too high; move high down
-				high = mid;
+				high = mid; // Payment too high
 			}
 			iterationCounter++;
 		}
 	
-		return mid; // The approximate solution
+		return mid;
 	}
 }
