@@ -29,7 +29,10 @@ public class LoanCalc {
 	// interest rate (as a percentage), the number of periods (n), and the periodical payment.
 	private static double endBalance(double loan, double rate, int n, double payment) {	
 		// Replace the following statement with your code
-		return 0;
+		for(int i = 0; i<n;i++){
+			loan = (loan - payment) * (rate/100 + 1);
+		}
+		return loan;
 	}
 	
 	// Uses sequential search to compute an approximation of the periodical payment
@@ -38,8 +41,13 @@ public class LoanCalc {
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
-		// Replace the following statement with your code
-		return 0;
+		iterationCounter = 0;
+		double payment = (loan / n);
+		while (endBalance(loan, rate, n, payment) > 0){
+			payment += epsilon;
+			iterationCounter++;
+		}
+		return payment;
     }
     
     // Uses bisection search to compute an approximation of the periodical payment 
@@ -47,8 +55,30 @@ public class LoanCalc {
 	// Given: the sum of the loan, the periodical interest rate (as a percentage),
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
-    public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
-        // Replace the following statement with your code
-		return 0;
-    }
+    public static double bisectionSolver(double loan, double rate, int n, double epsilon) {
+		iterationCounter = 0;
+		// Lower bound: paying nothing means balance > 0
+		double low = 0;
+		// Upper bound: paying entire loan/n annually with interest added
+		double high = loan * Math.pow((1 + rate), n) / n; 
+		double mid = 0; // Midpoint
+		double balance = 0; // Balance at midpoint
+	
+		// Iteratively narrow the range
+		while (high - low > epsilon) {
+			mid = (low + high) / 2;
+			balance = endBalance(loan, rate, n, mid);
+	
+			if (balance > 0) {
+				// Payment too low; move low up
+				low = mid;
+			} else {
+				// Payment too high; move high down
+				high = mid;
+			}
+			iterationCounter++;
+		}
+	
+		return mid; // The approximate solution
+	}
 }
